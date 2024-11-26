@@ -37,6 +37,26 @@
 			);
 			target = A69DC3872CF2DAFC00281292 /* ExchangeRates */;
 		};
+		A69DC3DA2CF5050E00281292 /* Exceptions for "ExchangeRates" folder in "ExchangeRatesTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Date+Extensions.swift",
+				Model/ModelData.swift,
+				Networking/FetchResult.swift,
+				Networking/NetworkService.swift,
+			);
+			target = A69DC3982CF2DAFD00281292 /* ExchangeRatesTests */;
+		};
+		A69DC3DC2CF5051300281292 /* Exceptions for "ExchangeRates" folder in "ExchangeRatesUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Date+Extensions.swift",
+				Model/ModelData.swift,
+				Networking/FetchResult.swift,
+				Networking/NetworkService.swift,
+			);
+			target = A69DC3A22CF2DAFD00281292 /* ExchangeRatesUITests */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -44,6 +64,8 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				A69DC3B72CF2DB4500281292 /* Exceptions for "ExchangeRates" folder in "ExchangeRates" target */,
+				A69DC3DA2CF5050E00281292 /* Exceptions for "ExchangeRates" folder in "ExchangeRatesTests" target */,
+				A69DC3DC2CF5051300281292 /* Exceptions for "ExchangeRates" folder in "ExchangeRatesUITests" target */,
 			);
 			path = ExchangeRates;
 			sourceTree = "<group>";
@@ -208,6 +230,8 @@
 			);
 			mainGroup = A69DC37F2CF2DAFC00281292;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A69DC3892CF2DAFC00281292 /* Products */;
 			projectDirPath = "";
