@@ -10,8 +10,16 @@ import Observation
 
 // MARK: - ModelData
 
-@Observable
-class ModelData {
+@Observable class ModelData {
+
+    // MARK: Lifecycle
+
+    init(networkService: NetworkService) {
+        self.networkService = networkService
+    }
+
+    // MARK: Internal
+
     enum State {
         case notApplicable
         case fetchedCurrencies
@@ -19,16 +27,10 @@ class ModelData {
         case failed(error: Error)
     }
 
-    private var networkService: NetworkService
-
     private(set) var currencies: [String: String] = [:]
     private(set) var exchangeRates: [String: Double] = [:]
-    
-    private(set) var state: State = .notApplicable
 
-    init(networkService: NetworkService) {
-        self.networkService = networkService
-    }
+    private(set) var state: State = .notApplicable
 
     func fetchCurrencies() async throws {
         currencies = try await networkService.fetchCurrencyDictionary()
@@ -48,4 +50,8 @@ class ModelData {
         exchangeRates = result.exchangeRates
         state = .fetchedResult
     }
+
+    // MARK: Private
+
+    private var networkService: NetworkService
 }

@@ -13,7 +13,7 @@ extension Date {
         formatter.dateFormat = "YYYY-MM-dd"
         return formatter
     }
-    
+
     static func dateFromString(_ dateString: String,
                                formatter: DateFormatter = Self.dateFormatterForYYYYMMDD) {
         formatter.date(from: dateString)

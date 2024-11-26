@@ -10,11 +10,10 @@ import SwiftUI
 // MARK: - ContentView
 
 struct ContentView: View {
+
+    // MARK: Internal
+
     @Environment(ModelData.self) var modelData
-    
-    @State private var startDate: Date = .now
-    @State private var endDate: Date = .now
-    @State private var baseCurrency: String = "USD"
 
     var body: some View {
         VStack {
@@ -42,13 +41,26 @@ struct ContentView: View {
         }
     }
 
+    // MARK: Private
+
+    private static var minimumDate: Date {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd"
+        let date = formatter.date(from: "1999/01/03")!
+        return date
+    }
+
+    @State private var startDate: Date = .now
+    @State private var endDate: Date = .now
+    @State private var baseCurrency: String = "USD"
+
     private var notApplicableView: some View {
         VStack {
             Text("Welcome to ExchangeRates")
                 .font(.title).bold()
         }
     }
-    
+
     private var loadingView: some View {
         VStack {
             ProgressView()
@@ -62,14 +74,6 @@ struct ContentView: View {
             ProgressView()
             Text("Fetching currencies...")
                 .font(.title).bold()
-        }
-    }
-
-    private func failedToFetchView(error: Error) -> some View {
-        VStack {
-            Text("Failed")
-                .font(.title).bold()
-            Text("\(error)").font(.caption)
         }
     }
 
@@ -97,17 +101,10 @@ struct ContentView: View {
             }
         }
     }
-    
-    private static var minimumDate: Date {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd"
-        let date = formatter.date(from: "1999/01/03")!
-        return date
-    }
-    
+
     private var startDatePicker: some View {
-        DatePicker(selection: $startDate, in: Self.minimumDate...Date.now, displayedComponents: [.date]) {
-            //Text("Start Date")
+        DatePicker(selection: $startDate, in: Self.minimumDate ... Date.now, displayedComponents: [.date]) {
+            // Text("Start Date")
             Text("Date")
         }
         .onChange(of: startDate) {
@@ -116,9 +113,9 @@ struct ContentView: View {
             }
         }
     }
-    
+
     private var endDatePicker: some View {
-        DatePicker(selection: $endDate, in: startDate...Date.now, displayedComponents: [.date]) {
+        DatePicker(selection: $endDate, in: startDate ... Date.now, displayedComponents: [.date]) {
             Text("End Date")
         }
         .onChange(of: endDate) {
@@ -127,12 +124,12 @@ struct ContentView: View {
             }
         }
     }
-    
+
     private var datePickerSection: some View {
-         Section {
-             startDatePicker
-             //endDatePicker
-         }
+        Section {
+            startDatePicker
+            // endDatePicker
+        }
     }
 
     private var exchangeRatesList: some View {
@@ -149,6 +146,14 @@ struct ContentView: View {
                         .foregroundStyle(.secondary)
                 }
             }
+        }
+    }
+
+    private func failedToFetchView(error: Error) -> some View {
+        VStack {
+            Text("Failed")
+                .font(.title).bold()
+            Text("\(error)").font(.caption)
         }
     }
 }

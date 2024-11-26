@@ -7,14 +7,19 @@
 
 import Foundation
 
+// MARK: - ExchangeRate
+
 struct ExchangeRate: Codable, Identifiable, Hashable {
+
+    let symbol: String
+    let rate: Double
+
     var id: ObjectIdentifier {
         ObjectIdentifier(NSUUID())
     }
-    
-    let symbol: String
-    let rate: Double
 }
+
+// MARK: - FetchResult
 
 struct FetchResult: Codable {
     enum CodingKeys: String, CodingKey {
@@ -23,7 +28,13 @@ struct FetchResult: Codable {
         case endDateString = "end_date"
         case exchangeRates = "rates"
     }
-    
+
+    static var defaultDateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY/MM/DD"
+        return formatter
+    }
+
     let baseCurrency: String
     let startDateString = "start_date"
     let endDateString = "end_date"
@@ -32,14 +43,8 @@ struct FetchResult: Codable {
     func startDate(formatter: DateFormatter = Self.defaultDateFormatter) -> Date {
         formatter.date(from: startDateString)!
     }
-    
+
     func endDate(formatter: DateFormatter = Self.defaultDateFormatter) -> Date {
         formatter.date(from: endDateString)!
-    }
-    
-    static var defaultDateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYY/MM/DD"
-        return formatter
     }
 }

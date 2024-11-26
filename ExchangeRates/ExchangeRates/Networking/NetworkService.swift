@@ -9,8 +9,10 @@ import Foundation
 import Network
 import Observation
 
-@Observable
-class NetworkService {
+@Observable class NetworkService {
+
+    // MARK: Internal
+
     enum RequestError: Error {
         case failed
         case failedToDecode
@@ -29,20 +31,20 @@ class NetworkService {
 
     func fetchRatesForDateInterval(startDate: Date,
                                    endDate: Date,
-                                   baseCurrency: String) async throws -> FetchResult
-    {
-        let url = makeRequestURLForDateInterval(
-            startDate: startDate,
-            endDate: endDate, baseCurrency: baseCurrency
-        )
+                                   baseCurrency: String) async throws -> FetchResult {
+        let url = makeRequestURLForDateInterval(startDate: startDate,
+                                                endDate: endDate, baseCurrency: baseCurrency)
         return try await fetchData(fromURL: url)
     }
 
+    // MARK: Private
+
+    private static let baseURL = "https://api.frankfurter.app"
+    private static let requestURLForCurrencies = URL(string: "\(baseURL)/currencies")!
+
     private func fetchData<T: Decodable>(fromURL url: URL) async throws -> T {
         #if DEBUG
-            let (taskData, response) = try await URLSession(configuration: .ephemeral).data(
-                from: url
-            )
+            let (taskData, response) = try await URLSession(configuration: .ephemeral).data(from: url)
         #else
             let (taskData, response) = try await URLSession.shared.data(from: url)
         #endif
@@ -54,12 +56,8 @@ class NetworkService {
         return try JSONDecoder().decode(T.self, from: taskData)
     }
 
-    private static let baseURL = "https://api.frankfurter.app"
-    private static let requestURLForCurrencies = URL(string: "\(baseURL)/currencies")!
-
     private func makeRequestURLForSingleDate(_ date: Date,
-                                             baseCurrency: String) -> URL
-    {
+                                             baseCurrency: String) -> URL {
         let dateString = Date.dateFormatterForYYYYMMDD.string(from: date)
 
         let urlString = "\(Self.baseURL)/\(dateString)?base=\(baseCurrency)"
@@ -68,8 +66,7 @@ class NetworkService {
 
     private func makeRequestURLForDateInterval(startDate: Date,
                                                endDate: Date,
-                                               baseCurrency: String) -> URL
-    {
+                                               baseCurrency: String) -> URL {
         let startDateString = Date.dateFormatterForYYYYMMDD.string(from: startDate)
         let endDateString = Date.dateFormatterForYYYYMMDD.string(from: endDate)
 

@@ -7,18 +7,24 @@
 
 import SwiftUI
 
-@main
-struct ExchangeRatesApp: App {
-    @State private var modelData: ModelData
-    
+@main struct ExchangeRatesApp: App {
+
+    // MARK: Lifecycle
+
     init() {
         modelData = ModelData(networkService: NetworkService())
     }
-    
+
+    // MARK: Internal
+
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(modelData)
         }
     }
+
+    // MARK: Private
+
+    @State private var modelData: ModelData
 }
